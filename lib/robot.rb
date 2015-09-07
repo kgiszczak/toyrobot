@@ -1,5 +1,10 @@
 class Robot
-  DIRECTIONS = %w(north east south west)
+  NORTH = 'north'.freeze
+  EAST  = 'east'.freeze
+  SOUTH = 'south'.freeze
+  WEST  = 'west'.freeze
+
+  DIRECTIONS = [NORTH, EAST, SOUTH, WEST].freeze
 
   POSITION_X_MAX = 4
   POSITION_Y_MAX = 4
@@ -30,13 +35,13 @@ class Robot
 
   def move
     case direction
-    when 'north'
+    when NORTH
       self.x += 1
-    when 'east'
+    when EAST
       self.y += 1
-    when 'south'
+    when SOUTH
       self.x -= 1
-    when 'west'
+    when WEST
       self.y -= 1
     end
   rescue IncorrectPosition
