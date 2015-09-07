@@ -65,111 +65,111 @@ RSpec.describe Robot do
 
   describe '#move' do
     context 'when direction is "north"' do
-      context "when x position is lower then or equal to #{Robot::POSITION_X_MAX}" do
+      context "when y position is lower then or equal to #{Robot::POSITION_Y_MAX}" do
         subject { Robot.new(0, 0, 'north') }
-
-        it 'increments x position' do
-          subject.move
-          expect(subject.x).to eq(1)
-        end
-
-        it 'does not change y position' do
-          subject.move
-          expect(subject.y).to eq(0)
-        end
-      end
-
-      context "when x position is equal #{Robot::POSITION_X_MAX}" do
-        subject { Robot.new(Robot::POSITION_X_MAX, 0, 'north') }
-
-        it 'does not change x position' do
-          subject.move
-          expect(subject.x).to eq(Robot::POSITION_X_MAX)
-        end
-
-        it 'does not change y position' do
-          subject.move
-          expect(subject.y).to eq(0)
-        end
-      end
-    end
-
-    context 'when direction is "east"' do
-      context "when y position is lower then #{Robot::POSITION_Y_MAX}" do
-        subject { Robot.new(0, 0, 'east') }
-
-        it 'does not change x position' do
-          subject.move
-          expect(subject.x).to eq(0)
-        end
 
         it 'increments y position' do
           subject.move
           expect(subject.y).to eq(1)
         end
-      end
-
-      context "when y position is equal #{Robot::POSITION_Y_MAX}" do
-        subject { Robot.new(0, Robot::POSITION_Y_MAX, 'east') }
 
         it 'does not change x position' do
           subject.move
           expect(subject.x).to eq(0)
         end
+      end
+
+      context "when y position is equal #{Robot::POSITION_Y_MAX}" do
+        subject { Robot.new(0, Robot::POSITION_Y_MAX, 'north') }
 
         it 'does not change y position' do
           subject.move
           expect(subject.y).to eq(Robot::POSITION_Y_MAX)
         end
+
+        it 'does not change x position' do
+          subject.move
+          expect(subject.x).to eq(0)
+        end
+      end
+    end
+
+    context 'when direction is "east"' do
+      context "when x position is lower then #{Robot::POSITION_X_MAX}" do
+        subject { Robot.new(0, 0, 'east') }
+
+        it 'does not change y position' do
+          subject.move
+          expect(subject.y).to eq(0)
+        end
+
+        it 'increments x position' do
+          subject.move
+          expect(subject.x).to eq(1)
+        end
+      end
+
+      context "when x position is equal #{Robot::POSITION_X_MAX}" do
+        subject { Robot.new(Robot::POSITION_X_MAX, 0, 'east') }
+
+        it 'does not change y position' do
+          subject.move
+          expect(subject.y).to eq(0)
+        end
+
+        it 'does not change x position' do
+          subject.move
+          expect(subject.x).to eq(Robot::POSITION_X_MAX)
+        end
       end
     end
 
     context 'when direction is "south"' do
-      context "when x position is greater then 0" do
-        subject { Robot.new(2, 0, 'south') }
-
-        it 'decrements x position' do
-          subject.move
-          expect(subject.x).to eq(1)
-        end
-
-        it 'does not change y position' do
-          subject.move
-          expect(subject.y).to eq(0)
-        end
-      end
-
-      context "when x position is equal 0" do
-        subject { Robot.new(0, 0, 'south') }
-
-        it 'does not change x position' do
-          subject.move
-          expect(subject.x).to eq(0)
-        end
-
-        it 'does not change y position' do
-          subject.move
-          expect(subject.y).to eq(0)
-        end
-      end
-    end
-
-    context 'when y direction is "west"' do
       context "when y position is greater then 0" do
-        subject { Robot.new(0, 2, 'west') }
-
-        it 'does not change x position' do
-          subject.move
-          expect(subject.x).to eq(0)
-        end
+        subject { Robot.new(0, 2, 'south') }
 
         it 'decrements y position' do
           subject.move
           expect(subject.y).to eq(1)
         end
+
+        it 'does not change x position' do
+          subject.move
+          expect(subject.x).to eq(0)
+        end
       end
 
       context "when y position is equal 0" do
+        subject { Robot.new(0, 0, 'south') }
+
+        it 'does not change y position' do
+          subject.move
+          expect(subject.y).to eq(0)
+        end
+
+        it 'does not change x position' do
+          subject.move
+          expect(subject.x).to eq(0)
+        end
+      end
+    end
+
+    context 'when direction is "west"' do
+      context "when x position is greater then 0" do
+        subject { Robot.new(2, 0, 'west') }
+
+        it 'does not change y position' do
+          subject.move
+          expect(subject.y).to eq(0)
+        end
+
+        it 'decrements x position' do
+          subject.move
+          expect(subject.x).to eq(1)
+        end
+      end
+
+      context "when x position is equal 0" do
         subject { Robot.new(0, 0, 'west') }
 
         it 'does not change x position' do

@@ -36,13 +36,13 @@ class Robot
   def move
     case direction
     when NORTH
-      self.x += 1
-    when EAST
       self.y += 1
+    when EAST
+      self.x += 1
     when SOUTH
-      self.x -= 1
-    when WEST
       self.y -= 1
+    when WEST
+      self.x -= 1
     end
   rescue IncorrectPosition
     puts "I can't move there!"
