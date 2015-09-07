@@ -2,31 +2,33 @@ require 'robot'
 
 RSpec.describe Robot do
 
-  describe '#initialize' do
+  describe '#place' do
+    subject { Robot.new(0, 0, 'north') }
+
     context 'when incorrect direction' do
       it 'raises IncorrectDirection error' do
-        expect { Robot.new(0, 0, 'incorrect') }.to raise_error(Robot::IncorrectDirection)
+        expect { subject.place(0, 0, 'incorrect') }.to raise_error(Robot::IncorrectDirection)
       end
     end
 
     context 'when incorrect x position' do
       it 'raises IncorrectPosition error' do
-        expect { Robot.new(-1, 0, 'north') }.to raise_error(Robot::IncorrectPosition)
+        expect { subject.place(-1, 0, 'north') }.to raise_error(Robot::IncorrectPosition)
       end
     end
 
     context 'when incorrect y position' do
       it 'raises IncorrectPosition error' do
-        expect { Robot.new(0, -1, 'north') }.to raise_error(Robot::IncorrectPosition)
+        expect { subject.place(0, -1, 'north') }.to raise_error(Robot::IncorrectPosition)
       end
     end
 
     context 'when correct parameters' do
-      it 'creates robot object' do
-        robot = Robot.new(0, 0, 'north')
-        expect(robot.x).to eq(0)
-        expect(robot.y).to eq(0)
-        expect(robot.direction).to eq('north')
+      it 'changes robot position and direction' do
+        subject.place(1, 1, 'west')
+        expect(subject.x).to eq(1)
+        expect(subject.y).to eq(1)
+        expect(subject.direction).to eq('west')
       end
     end
   end

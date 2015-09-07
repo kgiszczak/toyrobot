@@ -11,6 +11,10 @@ class Robot
   attr_reader :x, :y, :direction
 
   def initialize(x, y, direction)
+    place(x, y, direction)
+  end
+
+  def place(x, y, direction)
     self.x = x
     self.y = y
     self.direction = direction
