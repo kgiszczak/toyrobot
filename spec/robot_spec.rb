@@ -3,8 +3,6 @@ require 'robot'
 RSpec.describe Robot do
 
   describe '#place' do
-    subject { Robot.new(0, 0, 'north') }
-
     context 'when incorrect direction' do
       it 'raises IncorrectDirection error' do
         expect { subject.place(0, 0, 'incorrect') }.to raise_error(Robot::IncorrectDirection)
@@ -33,6 +31,25 @@ RSpec.describe Robot do
     end
   end
 
+  describe '#placed?' do
+    context 'when robot is not correctly placed' do
+      it 'returns false' do
+        begin
+          subject.place(0, 0, 'incorrect')
+        rescue
+        end
+        expect(subject.placed?).to eq(false)
+      end
+    end
+
+    context 'when robot is correctly placed' do
+      it 'returns true' do
+        subject.place(0, 0, 'north')
+        expect(subject.placed?).to eq(true)
+      end
+    end
+  end
+
   describe '#left' do
     {
       'north' => 'west',
@@ -41,7 +58,8 @@ RSpec.describe Robot do
       'east' => 'north'
     }.each do |from, to|
       it "changes direction from #{from} to #{to}" do
-        robot = Robot.new(0, 0, from)
+        robot = Robot.new
+        robot.place(0, 0, from)
         robot.left
         expect(robot.direction).to eq(to)
       end
@@ -56,7 +74,8 @@ RSpec.describe Robot do
       'west' => 'north'
     }.each do |from, to|
       it "changes direction from #{from} to #{to}" do
-        robot = Robot.new(0, 0, from)
+        robot = Robot.new
+        robot.place(0, 0, from)
         robot.right
         expect(robot.direction).to eq(to)
       end
@@ -66,7 +85,11 @@ RSpec.describe Robot do
   describe '#move' do
     context 'when direction is "north"' do
       context "when y position is lower then or equal to #{Robot::POSITION_Y_MAX}" do
-        subject { Robot.new(0, 0, 'north') }
+        subject do
+          robot = Robot.new
+          robot.place(0, 0, 'north')
+          robot
+        end
 
         it 'increments y position' do
           subject.move
@@ -80,7 +103,11 @@ RSpec.describe Robot do
       end
 
       context "when y position is equal #{Robot::POSITION_Y_MAX}" do
-        subject { Robot.new(0, Robot::POSITION_Y_MAX, 'north') }
+        subject do
+          robot = Robot.new
+          robot.place(0, Robot::POSITION_Y_MAX, 'north')
+          robot
+        end
 
         it 'does not change y position' do
           subject.move
@@ -96,7 +123,11 @@ RSpec.describe Robot do
 
     context 'when direction is "east"' do
       context "when x position is lower then #{Robot::POSITION_X_MAX}" do
-        subject { Robot.new(0, 0, 'east') }
+        subject do
+          robot = Robot.new
+          robot.place(0, 0, 'east')
+          robot
+        end
 
         it 'does not change y position' do
           subject.move
@@ -110,7 +141,11 @@ RSpec.describe Robot do
       end
 
       context "when x position is equal #{Robot::POSITION_X_MAX}" do
-        subject { Robot.new(Robot::POSITION_X_MAX, 0, 'east') }
+        subject do
+          robot = Robot.new
+          robot.place(Robot::POSITION_X_MAX, 0, 'east')
+          robot
+        end
 
         it 'does not change y position' do
           subject.move
@@ -126,7 +161,11 @@ RSpec.describe Robot do
 
     context 'when direction is "south"' do
       context "when y position is greater then 0" do
-        subject { Robot.new(0, 2, 'south') }
+        subject do
+          robot = Robot.new
+          robot.place(0, 2, 'south')
+          robot
+        end
 
         it 'decrements y position' do
           subject.move
@@ -140,7 +179,11 @@ RSpec.describe Robot do
       end
 
       context "when y position is equal 0" do
-        subject { Robot.new(0, 0, 'south') }
+        subject do
+          robot = Robot.new
+          robot.place(0, 0, 'south')
+          robot
+        end
 
         it 'does not change y position' do
           subject.move
@@ -156,7 +199,11 @@ RSpec.describe Robot do
 
     context 'when direction is "west"' do
       context "when x position is greater then 0" do
-        subject { Robot.new(2, 0, 'west') }
+        subject do
+          robot = Robot.new
+          robot.place(2, 0, 'west')
+          robot
+        end
 
         it 'does not change y position' do
           subject.move
@@ -170,7 +217,11 @@ RSpec.describe Robot do
       end
 
       context "when x position is equal 0" do
-        subject { Robot.new(0, 0, 'west') }
+        subject do
+          robot = Robot.new
+          robot.place(0, 0, 'west')
+          robot
+        end
 
         it 'does not change x position' do
           subject.move
@@ -186,9 +237,19 @@ RSpec.describe Robot do
   end
 
   describe '#report' do
-    it 'returns string with robot position and direction' do
-      robot = Robot.new(2, 3, 'west')
-      expect(robot.report).to eq('2, 3, west')
+    context 'when correctly placed' do
+      it 'returns string with robot position and direction' do
+        robot = Robot.new
+        robot.place(2, 3, 'west')
+        expect(robot.report).to eq('2, 3, west')
+      end
+    end
+
+    context 'when incorrectly placed' do
+      it 'returns string' do
+        robot = Robot.new
+        expect(robot.report).to eq("Robot hasn't been placed yet on the table")
+      end
     end
   end
 

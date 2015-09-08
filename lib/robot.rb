@@ -15,25 +15,33 @@ class Robot
 
   attr_reader :x, :y, :direction
 
-  def initialize(x, y, direction)
-    place(x, y, direction)
-  end
-
   def place(x, y, direction)
+    @placed = false
+
     self.x = x
     self.y = y
     self.direction = direction
+
+    @placed = true
+  end
+
+  def placed?
+    @placed == true
   end
 
   def left
+    return unless placed?
     self.direction = DIRECTIONS[direction_index - 1]
   end
 
   def right
+    return unless placed?
     self.direction = DIRECTIONS[(direction_index + 1) % 4]
   end
 
   def move
+    return unless placed?
+
     case direction
     when NORTH
       self.y += 1
@@ -49,7 +57,11 @@ class Robot
   end
 
   def report
-    "#{x}, #{y}, #{direction}"
+    if placed?
+      "#{x}, #{y}, #{direction}"
+    else
+      "Robot hasn't been placed yet on the table"
+    end
   end
 
   private
