@@ -1,14 +1,31 @@
 require 'tokenizer'
 require 'robot'
 
+# Environment in which commands are executed
 class Runner
-  attr_reader :commands, :robot
+  # Return list of the commands
+  #
+  # @return [Array] commands list
+  attr_reader :commands
 
+  # Return instance of the robot
+  #
+  # @return [Robot] robot
+  attr_reader :robot
+
+  # Initialize a new instance of the runner
+  #
+  # @param input [String] String with commands
+  #
+  # @return [Runner] a new instance of the runner
   def initialize(input)
     @commands = Tokenizer.tokenize(input)
     @robot = Robot.new
   end
 
+  # Execute commands in correct order
+  #
+  # @return [Array] command list
   def run
     @commands.each do |command|
       case command.name
